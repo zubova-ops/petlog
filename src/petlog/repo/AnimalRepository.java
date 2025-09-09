@@ -11,4 +11,8 @@ public interface AnimalRepository {
     Optional<Animal> findById(Long id);
 
     List<Animal> findAll();
+
+    void deleteById(Long id);
+
+    boolean existsById(Long id);
 }

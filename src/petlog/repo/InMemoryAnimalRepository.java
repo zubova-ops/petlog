@@ -21,4 +21,14 @@ public class InMemoryAnimalRepository implements AnimalRepository {
     public List<Animal> findAll() {
         return new ArrayList<>(map.values());
     }
+
+    @Override
+    public void deleteById(Long id) {
+        map.remove(id);
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return map.containsKey(id);
+    }
 }
