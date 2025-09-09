@@ -13,6 +13,8 @@ import java.util.Optional;
 
 public class App {
     public static void main(String[] args) {
+        ConsoleMenu console = new ConsoleMenu();
+        console.run();
         System.out.println("Это мой приют:");
         Animal cat = new Animal(1, "Missa", LocalDate.of(2018, Month.JUNE, 01),
                 AnimalStatus.SHELTERPET, Species.CAT);
@@ -35,6 +37,9 @@ public class App {
         System.out.println("Данный номер соответствует питомцу:  " + animal);
         animal = animalService.get(3L);
         System.out.println("Данный номер соответствует питомцу:  " + animal);
+        animalService.adopt(2L, "null");
+        animalService.adopt(2L, "null");
+
 
         List<Animal> animals = animalService.getAll();
         System.out.println("\n" + animals);

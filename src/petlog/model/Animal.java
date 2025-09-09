@@ -5,28 +5,39 @@ import java.util.Objects;
 
 public class Animal {
     private long id;
-    private final String petName;
+    private String petName;
     private final LocalDate dateOfBirth;
     private AnimalStatus animalStatus;
     private final Species species;
 
-    public Animal(String petName, LocalDate dateOfBirth, AnimalStatus animalStatus, Species species) {
-        this.petName = petName;
-        this.dateOfBirth = dateOfBirth;
-        this.animalStatus = animalStatus;
-        this.species = species;
-    }
-
     public Animal(long id, String petName, LocalDate dateOfBirth, AnimalStatus animalStatus, Species species) {
-        this.id = id;
-        this.petName = petName;
-        this.dateOfBirth = dateOfBirth;
+        if (id > 0) {
+            this.id = id;
+        } else throw new IllegalArgumentException("id < 0");
+        if (petName == null) {
+            throw new IllegalArgumentException("Имя пользователя не может быть null.");
+        }
+        if (!petName.trim().isEmpty()) {
+            this.petName = petName;
+        } else throw new IllegalArgumentException("имя не может быть пустым");
+        boolean isNotFuture = !dateOfBirth.isAfter(LocalDate.now());
+        if (isNotFuture) {
+            this.dateOfBirth = dateOfBirth;
+        } else throw new IllegalArgumentException("дата рождения не может быть позднее текущей даты");
         this.animalStatus = animalStatus;
         this.species = species;
     }
 
     public long getId() {
         return id;
+    }
+
+    public void adoptPet() {
+        this.animalStatus = AnimalStatus.ADOPTEDPET;
+    }
+
+    public void setPetName(String petName) {
+        this.petName = petName;
     }
 
     public String getPetName() {
@@ -43,10 +54,6 @@ public class Animal {
 
     public Species getSpecies() {
         return species;
-    }
-
-    public void setAnimalStatus(AnimalStatus animalStatus) {
-        this.animalStatus = animalStatus;
     }
 
     @Override
