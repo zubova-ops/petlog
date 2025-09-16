@@ -56,6 +56,8 @@ public class ConsoleMenu {
                 "\nadd   - добавить животное" +
                 "\nlist  - показать список животных" +
                 "\nadopt  - усыновить животное" +
+                "\nimport - получить животных из файла" +
+                "\nexport - перенести животных из программы в файл" +
                 "\nexit  - выйти");
     }
 
@@ -93,14 +95,15 @@ public class ConsoleMenu {
     private void importFromFile() {
         Path path = Path.of("C:\\Users\\79582\\Desktop\\Csv.txt");
         try {
-            CsvAnimalStorage.importFromFile(path, new ArrayList<>());
+            List<Animal> animals = CsvAnimalStorage.importFromFile(path, new ArrayList<>());
+            for (Animal a : animals) {
+                animalService.save(a);
+            }
             System.out.println("Успешно!");
         } catch (IOException e) {
             System.out.println("Ошибка!");
             throw new RuntimeException(e);
         }
-
-
     }
 
     private void exportToFile() {
