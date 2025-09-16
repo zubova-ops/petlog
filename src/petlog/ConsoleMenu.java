@@ -1,14 +1,18 @@
 package petlog;
 
+import petlog.io.CsvAnimalStorage;
 import petlog.model.Animal;
 import petlog.model.AnimalStatus;
 import petlog.model.Species;
 import petlog.repo.InMemoryAnimalRepository;
 import petlog.service.AnimalService;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -33,6 +37,8 @@ public class ConsoleMenu {
                     case "add" -> add();
                     case "list" -> list();
                     case "adopt" -> adopt();
+                    case "import" -> importFromFile();
+                    case "export" -> exportToFile();
                     case "exit" -> console.close();
                     case "" -> {
                     }
@@ -78,10 +84,35 @@ public class ConsoleMenu {
         System.out.println("Добавлено " + newAnimal);
     }
 
-    private List<Animal> list() {
+    private void list() {
         List<Animal> animals = animalService.getAll();
         System.out.println(animals);
-        return animals;
+    }
+
+
+    private void importFromFile() {
+        Path path = Path.of("C:\\Users\\79582\\Desktop\\Csv.txt");
+        try {
+            CsvAnimalStorage.importFromFile(path, new ArrayList<>());
+            System.out.println("Успешно!");
+        } catch (IOException e) {
+            System.out.println("Ошибка!");
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+    private void exportToFile() {
+        List<Animal> animals = animalService.getAll();
+        Path path = Path.of("C:\\Users\\79582\\Desktop\\Csv.txt");
+        try {
+            CsvAnimalStorage.exportToFile(path, animals);
+            System.out.println("Успешно!");
+        } catch (IOException e) {
+            System.out.println("Ошибка!");
+            throw new RuntimeException(e);
+        }
     }
 
     private void adopt() {
