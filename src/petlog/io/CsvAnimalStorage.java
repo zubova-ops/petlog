@@ -56,7 +56,6 @@ public class CsvAnimalStorage {
         return result;
     }
 
-
     private static Animal parseLine(String line) throws Exception {
         try {
             String[] linesArray = line.split(SYMBOL);

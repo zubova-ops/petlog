@@ -42,6 +42,8 @@ public class App {
 
 
         List<Animal> animals = animalService.getAll();
-        System.out.println("\n" + animals);
+        for (Animal item : animals) {
+            System.out.println("\n" + item);
+        }
     }
 }
