@@ -6,7 +6,10 @@ import petlog.model.Species;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ReportsImperative {
     /**
@@ -63,17 +66,6 @@ public class ReportsImperative {
     }
 
     /**
-     * Топ-N самых старших по дате рождения (старые -> первые).
-     */
-    public static List<Animal> topOldest(List<Animal> animals, int limit) {
-        if (animals == null || limit < 1) {
-            return new ArrayList<>();
-        }
-        List<Animal> result = new ArrayList<>();
-        return result;
-    }
-
-    /**
      * Фильтр: родились ПОСЛЕ указанной даты (строго после).
      */
     public static List<Animal> bornAfter(List<Animal> animals, LocalDate dateExclusive) {
@@ -92,15 +84,7 @@ public class ReportsImperative {
      * Возраст в полных годах на сегодня.
      */
     public static int ageYears(Animal a) {
-        ;
         return Period.between(a.getDateOfBirth(), LocalDate.now()).getYears();
-    }
-
-    /**
-     * Статистика по возрастам (min/avg/max).
-     */
-    public static IntSummaryStatistics ageStats(List<Animal> animals) {
-        return null;
     }
 
     /**
