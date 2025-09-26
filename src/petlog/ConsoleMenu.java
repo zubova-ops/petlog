@@ -6,6 +6,7 @@ import petlog.model.AnimalStatus;
 import petlog.model.Species;
 import petlog.repo.InMemoryAnimalRepository;
 import petlog.report.Reports;
+import petlog.report.ReportsImperative;
 import petlog.service.AnimalService;
 
 import java.io.IOException;
@@ -43,6 +44,8 @@ public class ConsoleMenu {
                     case "species" -> speciesFlow();
                     case "oldest" -> oldestFlow();
                     case "search" -> searchFlow();
+                    case "status-count" -> statusFlow();
+                    case "name-frequencies" -> nameFrequenciesFlow();
                     case "born-after" -> bornAfterFlow();
                     case "import" -> importFromFile();
                     case "export" -> exportToFile();
@@ -58,7 +61,7 @@ public class ConsoleMenu {
     }
 
     public static void printHelp() {
-        System.out.printf(
+        System.out.println(
                 "\nКоманды: " +
                         "\nhelp - показать список команд" +
                         "\nadd - добавить животное" +
@@ -67,7 +70,9 @@ public class ConsoleMenu {
                         "\nexport - сохранить список в CSV" +
                         "\nimport - загрузить список из CSV" +
                         "\nstats - сводка: по статусу и возрастная статистика" +
+                        "\nstatus-count - сводка питомцев по их статусу в приюте" +
                         "\nspecies - распределение по видам" +
+                        "\nname-frequencies - name -> сколько раз встречается" +
                         "\noldest - топ-N самых старших (по дате рождения)" +
                         "\nsearch - поиск по подстроке имени" +
                         "\nborn-after - родившиеся после даты (ГГГГ-ММ-ДД)" +
@@ -146,6 +151,14 @@ public class ConsoleMenu {
         System.out.println(Reports.countBySpecies(animalService.getAll()));
     }
 
+    private void nameFrequenciesFlow() {
+        System.out.println(ReportsImperative.nameFrequencies(animalService.getAll()));
+    }
+
+    private void statusFlow() {
+        System.out.println(ReportsImperative.countByStatus(animalService.getAll()));
+    }
+
     private void oldestFlow() {
         System.out.println("Введите лимит: ");
         int limit = console.nextInt();
@@ -158,7 +171,7 @@ public class ConsoleMenu {
     private void searchFlow() {
         System.out.println("Введите подстроку имени: ");
         String searchName = console.nextLine().toLowerCase();
-        print(Reports.searchByName(animalService.getAll(), searchName));
+        print(ReportsImperative.searchByName(animalService.getAll(), searchName));
     }
 
     private void bornAfterFlow() {
