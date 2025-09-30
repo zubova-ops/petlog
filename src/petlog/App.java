@@ -18,18 +18,21 @@ public class App {
         System.out.println("Это мой приют:");
         Animal cat = new Animal(1, "Missa", LocalDate.of(2018, Month.JUNE, 01),
                 AnimalStatus.SHELTERPET, Species.CAT);
+
         Animal dog = new Animal(2, "Grey", LocalDate.of(2010, Month.APRIL, 20),
                 AnimalStatus.SHELTERPET, Species.DOG);
+
         Animal mouse = new Animal(3, "Minnie", LocalDate.of(2025, Month.AUGUST, 15),
                 AnimalStatus.SHELTERPET, Species.OTHER);
 
+
         AnimalService animalService = new AnimalService(new InMemoryAnimalRepository());
         animalService.save(cat);
-        System.out.println("Добавлен новый питомец " + cat);
+        System.out.println("Добавлено новое животное id= " + cat.getId());
         animalService.save(dog);
-        System.out.println("Добавлен новый питомец " + dog);
+        System.out.println("Добавлено новое животное id= " + dog.getId());
         animalService.save(mouse);
-        System.out.println("Добавлен новый питомец " + mouse);
+        System.out.println("Добавлено новое животное id= " + mouse.getId());
 
         Optional<Animal> animal = animalService.get(1L);
         System.out.println("Данный номер соответствует питомцу:  " + animal);

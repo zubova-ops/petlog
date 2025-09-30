@@ -3,6 +3,8 @@ package petlog.io;
 import petlog.model.Animal;
 import petlog.model.AnimalStatus;
 import petlog.model.Species;
+import petlog.service.ValidationException;
+import petlog.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -31,6 +33,8 @@ public class CsvAnimalStorage {
                 w.write(animalLine);
                 w.newLine();
             }
+        } catch (Exception e) {
+            throw new ValidationException("Ошибка экспорта" + e);
         }
     }
 
@@ -53,6 +57,7 @@ public class CsvAnimalStorage {
                 }
             }
         }
+        Log.info("Файл импортирован, адрес: " + path);
         return result;
     }
 
@@ -66,7 +71,7 @@ public class CsvAnimalStorage {
             AnimalStatus status = AnimalStatus.valueOf(linesArray[4]);
             return new Animal(id, name, birthDay, status, species);
         } catch (Exception e) {
-            throw new Exception("Ошибка парсинга " + e.getMessage());
+            throw new ValidationException("Ошибка парсинга " + e.getMessage());
         }
     }
 
