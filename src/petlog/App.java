@@ -5,7 +5,6 @@ import petlog.model.AnimalStatus;
 import petlog.model.Species;
 import petlog.repo.InMemoryAnimalRepository;
 import petlog.service.AnimalService;
-import petlog.util.Log;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -29,18 +28,18 @@ public class App {
 
         AnimalService animalService = new AnimalService(new InMemoryAnimalRepository());
         animalService.save(cat);
-        Log.info("Добавлено новое животное id= " + cat.getId());
+        System.out.println("Добавлено новое животное id= " + cat.getId());
         animalService.save(dog);
-        Log.info("Добавлено новое животное id= " + dog.getId());
+        System.out.println("Добавлено новое животное id= " + dog.getId());
         animalService.save(mouse);
-        Log.info("Добавлено новое животное id= " + mouse.getId());
+        System.out.println("Добавлено новое животное id= " + mouse.getId());
 
         Optional<Animal> animal = animalService.get(1L);
-        Log.info("Данный номер соответствует питомцу:  " + animal);
+        System.out.println("Данный номер соответствует питомцу:  " + animal);
         animal = animalService.get(2L);
-        Log.info("Данный номер соответствует питомцу:  " + animal);
+        System.out.println("Данный номер соответствует питомцу:  " + animal);
         animal = animalService.get(3L);
-        Log.info("Данный номер соответствует питомцу:  " + animal);
+        System.out.println("Данный номер соответствует питомцу:  " + animal);
         animalService.adopt(2L, "null");
         animalService.adopt(2L, "null");
 
