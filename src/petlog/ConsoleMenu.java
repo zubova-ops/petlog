@@ -8,6 +8,7 @@ import petlog.repo.InMemoryAnimalRepository;
 import petlog.report.Reports;
 import petlog.report.ReportsImperative;
 import petlog.service.AnimalService;
+import petlog.util.Log;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -55,7 +56,7 @@ public class ConsoleMenu {
                     default -> System.out.println("Неизвестная команда. help - показать список команд");
                 }
             } catch (Exception e) {
-                System.out.println("Ошибка! " + e);
+                Log.error("Ошибка! " + e);
             }
         } while (!action.equalsIgnoreCase("exit"));
     }
@@ -93,6 +94,7 @@ public class ConsoleMenu {
         try {
             date = LocalDate.parse(dateString, formatter);
         } catch (DateTimeParseException e) {
+            Log.error("Ошибка: Неправильный формат даты");
             System.out.println("Ошибка: Неправильный формат даты. Пожалуйста, введите в формате dd.MM.yyyy.");
         }
         System.out.println("Вид животного:");
@@ -101,7 +103,8 @@ public class ConsoleMenu {
         AnimalStatus status = AnimalStatus.valueOf(console.next());
         Animal newAnimal = new Animal(id, name, date, status, species);
         animalService.save(newAnimal);
-        System.out.println("Добавлено " + newAnimal);
+        Log.info("Добавлено новое животное id= " + newAnimal.getId());
+        System.out.println("Животное добавлено!");
     }
 
     private void list() {
@@ -115,9 +118,11 @@ public class ConsoleMenu {
             for (Animal a : animals) {
                 animalService.save(a);
             }
-            System.out.println("Успешно!");
+            Log.info("Успешно! Файл импортирован!");
+            System.out.println("Успешно! Файл импортирован!");
         } catch (IOException e) {
-            System.out.println("Ошибка!");
+            Log.error("Ошибка!" + e);
+            System.out.println("Ошибка импорта!");
             throw new RuntimeException(e);
         }
     }
@@ -127,9 +132,11 @@ public class ConsoleMenu {
         Path path = Path.of("C:\\Users\\79582\\Desktop\\Csv.txt");
         try {
             CsvAnimalStorage.exportToFile(path, animals);
-            System.out.println("Успешно!");
+            Log.info("Успешно! Файл экспортирован!");
+            System.out.println("Успешно! Файл экспортирован!");
         } catch (IOException e) {
-            System.out.println("Ошибка!");
+            Log.error("Ошибка!" + e);
+            System.out.println("Ошибка экспорта!");
             throw new RuntimeException(e);
         }
     }
@@ -140,7 +147,8 @@ public class ConsoleMenu {
         System.out.println("Введите имя усыновителя:");
         String adopterName = console.next();
         animalService.adopt(id, adopterName);
-        System.out.println("Усыновлено.");
+        Log.info("Животное усыновлено");
+        System.out.println("Животное усыновлено");
     }
 
     private void statsFlow() {
@@ -182,7 +190,8 @@ public class ConsoleMenu {
         try {
             date = LocalDate.parse(dateSearch, formatter);
         } catch (DateTimeParseException e) {
-            System.out.println("Ошибка: Неправильный формат даты. Пожалуйста, введите в формате dd.MM.yyyy.");
+            Log.error("Ошибка: Неправильный формат даты." + e);
+            System.out.println("Ошибка: Неправильный формат даты. Введите дату в формате dd.MM.yyyy!");
         }
         print(Reports.bornAfter(animalService.getAll(), date));
     }

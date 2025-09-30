@@ -5,6 +5,7 @@ import petlog.model.AnimalStatus;
 import petlog.model.Species;
 import petlog.repo.InMemoryAnimalRepository;
 import petlog.service.AnimalService;
+import petlog.util.Log;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -18,25 +19,28 @@ public class App {
         System.out.println("Это мой приют:");
         Animal cat = new Animal(1, "Missa", LocalDate.of(2018, Month.JUNE, 01),
                 AnimalStatus.SHELTERPET, Species.CAT);
+
         Animal dog = new Animal(2, "Grey", LocalDate.of(2010, Month.APRIL, 20),
                 AnimalStatus.SHELTERPET, Species.DOG);
+
         Animal mouse = new Animal(3, "Minnie", LocalDate.of(2025, Month.AUGUST, 15),
                 AnimalStatus.SHELTERPET, Species.OTHER);
 
+
         AnimalService animalService = new AnimalService(new InMemoryAnimalRepository());
         animalService.save(cat);
-        System.out.println("Добавлен новый питомец " + cat);
+        Log.info("Добавлено новое животное id= " + cat.getId());
         animalService.save(dog);
-        System.out.println("Добавлен новый питомец " + dog);
+        Log.info("Добавлено новое животное id= " + dog.getId());
         animalService.save(mouse);
-        System.out.println("Добавлен новый питомец " + mouse);
+        Log.info("Добавлено новое животное id= " + mouse.getId());
 
         Optional<Animal> animal = animalService.get(1L);
-        System.out.println("Данный номер соответствует питомцу:  " + animal);
+        Log.info("Данный номер соответствует питомцу:  " + animal);
         animal = animalService.get(2L);
-        System.out.println("Данный номер соответствует питомцу:  " + animal);
+        Log.info("Данный номер соответствует питомцу:  " + animal);
         animal = animalService.get(3L);
-        System.out.println("Данный номер соответствует питомцу:  " + animal);
+        Log.info("Данный номер соответствует питомцу:  " + animal);
         animalService.adopt(2L, "null");
         animalService.adopt(2L, "null");
 

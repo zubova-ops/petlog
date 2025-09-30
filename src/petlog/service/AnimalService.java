@@ -3,6 +3,7 @@ package petlog.service;
 import petlog.model.Animal;
 import petlog.model.AnimalStatus;
 import petlog.repo.AnimalRepository;
+import petlog.util.Log;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,8 +19,10 @@ public class AnimalService {
         boolean isExist = repository.existsById(animal.getId());
         if (!isExist) {
             repository.save(animal);
+            Log.info("Животное сохранено! id= " + animal.getId());
         } else {
-            throw new IllegalArgumentException("такой id уже существует");
+            Log.warn("Животное с id = " + animal.getId() + " уже существует!");
+            throw new ValidationException("такой id уже существует");
         }
     }
 
@@ -35,16 +38,19 @@ public class AnimalService {
         boolean isExist = repository.existsById(id);
         Animal animal = repository.findById(id).get();
         if (adopterName == null || adopterName.trim().isEmpty()) {
-            throw new IllegalArgumentException("Имя усыновителя не должно быть пустым");
+            throw new ValidationException("Имя усыновителя не должно быть пустым");
         }
         if (!isExist) {
-            throw new IllegalArgumentException("такого животного не существует");
+            Log.warn("Животное с id = " + id + " не существует!");
+            throw new ValidationException("такого животного не существует");
         }
         if (animal.getAnimalStatus().equals(AnimalStatus.ADOPTEDPET)) {
-            throw new IllegalArgumentException("Животное уже усыновлено");
+            Log.warn("Животное с id = " + id + " уже усыновлено!");
+            throw new ValidationException("Животное уже усыновлено");
         }
         animal.adoptPet();
         repository.save(animal);
+        Log.info("Животное усыновлено! id= " + animal.getId());
 
     }
 }
